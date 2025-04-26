@@ -1,0 +1,491 @@
+/* Tasks Page Specific Styles */
+@import url('common.css');
+
+/* Task Filter Controls */
+.task-filters {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 25px;
+}
+
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-item {
+    background-color: var(--light-grey);
+    color: var(--dark-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.filter-item.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-button);
+}
+
+.filter-item i {
+    font-size: 16px;
+}
+
+/* Hide form elements that are just for JS */
+#task-status-filter, #task-search {
+    display: none;
+}
+
+/* Tasks List */
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 80px;
+}
+
+/* Task Container Styles */
+#assigned-tasks-container, #completed-tasks-container {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+#assigned-tasks-container h2, #completed-tasks-container h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+/* Assigned Tasks Block Style */
+#assigned-tasks-blocks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.assigned-task-block {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    border: 1px solid var(--light-grey);
+    overflow: hidden;
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.assigned-task-block:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-3px);
+}
+
+.assigned-task-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assigned-task-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.assigned-task-status {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.assigned-task-content, .assigned-task-machine {
+    padding: 15px;
+}
+
+.assigned-task-machine {
+    background-color: var(--light-grey);
+}
+
+.assigned-task-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.assigned-task-item:last-child {
+    margin-bottom: 0;
+}
+
+.assigned-task-label {
+    color: var(--grey-color);
+    font-size: 14px;
+}
+
+.assigned-task-value {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.status-assigned {
+    color: var(--warning-color);
+}
+
+.status-completed {
+    color: var(--secondary-dark);
+}
+
+/* Completed Tasks Table Style */
+.completed-tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.completed-tasks-table th {
+    text-align: left;
+    padding: 12px 15px;
+    background-color: var(--light-grey);
+    color: var(--grey-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.completed-tasks-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--light-grey);
+    color: var(--dark-color);
+    font-size: 14px;
+}
+
+.completed-tasks-table tr:last-child td {
+    border-bottom: none;
+}
+
+.completed-tasks-table tbody tr {
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.completed-tasks-table tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+/* Completed Tasks Block Style */
+#completed-tasks-blocks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.completed-task-block {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    border: 1px solid var(--light-grey);
+    overflow: hidden;
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.completed-task-block:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-3px);
+}
+
+.completed-task-header {
+    background-color: var(--secondary-dark);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.completed-task-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.completed-task-status {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.completed-task-content, .completed-task-machine {
+    padding: 15px;
+}
+
+.completed-task-machine {
+    background-color: var(--light-grey);
+}
+
+.completed-task-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.completed-task-item:last-child {
+    margin-bottom: 0;
+}
+
+.completed-task-label {
+    color: var(--grey-color);
+    font-size: 14px;
+}
+
+.completed-task-value {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+/* Empty and Loading Messages */
+.empty-message, .loading-message, .loading-cell {
+    text-align: center;
+    color: var(--grey-color);
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* No Tasks Message */
+.no-tasks-message {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-card);
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.no-tasks-message p {
+    font-size: 16px;
+    color: var(--grey-color);
+}
+
+/* Hide elements by default */
+.hidden {
+    display: none !important;
+}
+
+/* Loading Spinner */
+.loading-spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(67, 97, 238, 0.2);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+.loading-text {
+    color: var(--grey-color);
+    font-size: 14px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Floating Refresh Button */
+.floating-button {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: var(--transition-normal);
+}
+
+.floating-button:active {
+    transform: scale(0.95);
+}
+
+/* Task Card Styles */
+.task-card {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    border-left: 5px solid var(--primary-color);
+    transition: var(--transition-bounce);
+}
+
+.task-card:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.task-id {
+    background-color: var(--light-grey);
+    color: var(--dark-color);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.task-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.task-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-label {
+    font-size: 13px;
+    color: var(--grey-color);
+    margin-bottom: 3px;
+}
+
+.meta-value {
+    font-size: 15px;
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.task-progress {
+    margin-top: 15px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.progress-percent {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.progress-ratio {
+    color: var(--grey-color);
+}
+
+.progress-bar-bg {
+    height: 8px;
+    background-color: var(--light-grey);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 10px;
+    transition: width 0.5s ease-out;
+}
+
+.task-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.status-active {
+    background-color: rgba(52, 211, 153, 0.1);
+    color: var(--secondary-dark);
+}
+
+.status-pending {
+    background-color: rgba(251, 191, 36, 0.1);
+    color: var(--warning-color);
+}
+
+.status-completed {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.task-action-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+}
+
+/* Animation for refresh button */
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: rotating 0.5s linear infinite;
+}
+
+/* Responsive design for tablets */
+@media (min-width: 600px) {
+    #assigned-tasks-blocks, #completed-tasks-blocks {
+        grid-template-columns: 1fr 1fr;
+    }
+}

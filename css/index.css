@@ -1,0 +1,36 @@
+/* Login Page Specific Styles */
+@import url('common.css');
+
+/* Login Page - Modern App Style */
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--gradient-primary);
+    padding: 0;
+}
+
+.login-form {
+    background-color: white;
+    padding: 35px;
+    border-radius: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.login-form h1 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.login-form h2 {
+    font-size: 18px;
+    color: var(--grey-color);
+    margin-bottom: 30px;
+    font-weight: 400;
+}

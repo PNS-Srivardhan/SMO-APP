@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SMO Production App - Scan</title>
+    <link rel="stylesheet" href="css/scan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- Add to home screen for iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SMO Production">
+    <link rel="apple-touch-icon" href="images/default-avatar.svg">
+</head>
+<body>
+    <!-- Desktop Warning Message -->
+    <div class="desktop-warning">
+        <img src="images/default-avatar.svg" alt="Mobile Only App">
+        <h2>Mobile Only Application</h2>
+        <p>This application is designed exclusively for mobile devices. Please access it from your smartphone or tablet for the best experience.</p>
+        <p>Scan the QR code below with your mobile device to open the app:</p>
+        <div id="qr-code" style="margin: 20px auto; background: white; padding: 15px; border-radius: 8px;">
+            <!-- QR code will be generated with JavaScript -->
+        </div>
+    </div>
+    
+    <!-- App Status Bar -->
+    <div class="app-status-bar">
+        <div class="time" id="status-time"></div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Header -->
+    <div class="app-header">
+        <h1>Scan QR Code</h1>
+        <div class="header-actions">
+            <div class="header-icon ripple" id="scan-refresh-btn">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content">
+            <div class="scanner-container" id="scanner-container">
+                <!-- Removed the redundant reader div that showed extra video -->
+                
+                <div class="scanner-frame" id="scanner-frame">
+                    <div class="scanner-viewport" id="scanner-viewport">
+                        <!-- Video element for camera stream will be inserted here -->
+                    </div>
+                    <div class="scanner-overlay">
+                        <div class="scan-area">
+                            <div class="scan-corner scan-corner-top-left"></div>
+                            <div class="scan-corner scan-corner-top-right"></div>
+                            <div class="scan-corner scan-corner-bottom-left"></div>
+                            <div class="scan-corner scan-corner-bottom-right"></div>
+                            <div class="scan-line"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scanner-message" id="scan-result-message">
+                    Initializing camera...
+                </div>
+                
+                <!-- Camera permission button -->
+                <button class="btn btn-primary ripple" id="camera-permission" style="display: none;">
+                    <i class="fas fa-camera"></i> Allow Camera Access
+                </button>
+                
+                <!-- Success animation container -->
+                <div class="success-animation-container" id="success-animation-container" style="display: none;">
+                    <!-- Success animation will be inserted here -->
+                    <div id="lottie-container"></div>
+                </div>
+                
+                <div id="scan-result" class="scan-result" style="display: none;">
+                    <h3><i class="fas fa-check-circle"></i> Scan Results</h3>
+                    <div class="scan-result-item">
+                        <span class="scan-result-label">Task ID:</span>
+                        <span class="scan-result-value" id="scanned-task-id">--</span>
+                    </div>
+                    <div class="scan-result-item">
+                        <span class="scan-result-label">Machine ID:</span>
+                        <span class="scan-result-value" id="result-machine-id">--</span>
+                    </div>
+                    <div class="scan-result-item">
+                        <span class="scan-result-label">Step:</span>
+                        <span class="scan-result-value" id="scanned-step-name">--</span>
+                    </div>
+                    <div class="scan-result-item">
+                        <span class="scan-result-label">Quantity:</span>
+                        <span class="scan-result-value" id="scanned-quantity">--</span>
+                    </div>
+                    
+                    <div class="scan-action-buttons">
+                        <button class="btn btn-success ripple" id="confirm-scan">
+                            <i class="fas fa-check"></i> Confirm
+                        </button>
+                        <button class="btn ripple" id="cancel-scan-btn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Notification container -->
+    <div class="notification hidden" id="scan-notification">
+        <span id="notification-message"></span>
+        <div class="notification-close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <span class="bottom-nav-label">Dashboard</span>
+        </a>
+        <a href="tasks.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <span class="bottom-nav-label">Tasks</span>
+        </a>
+        <a href="scan.html" class="bottom-nav-item active">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <span class="bottom-nav-label">Scan</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <span class="bottom-nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <script type="module" src="js/auth.js"></script>
+    <!-- HTML5QrCode library for QR scanner -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script type="module" src="js/scan.js"></script>
+    <!-- QR code generator for desktop warning -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/lib/qrcode.min.js"></script>
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <!-- Lottie for success animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.4/lottie.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status bar time update
+            function updateStatusTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                document.getElementById('status-time').textContent = `${hours}:${minutes} ${ampm}`;
+            }
+            
+            updateStatusTime();
+            setInterval(updateStatusTime, 60000);
+            
+            // Generate QR code on desktop with current URL
+            if(window.innerWidth >= 769) {
+                const qrCodeContainer = document.getElementById('qr-code');
+                if(qrCodeContainer) {
+                    QRCode.toCanvas(qrCodeContainer, window.location.href, {
+                        width: 200,
+                        margin: 1,
+                        color: {
+                            dark: '#4361ee',
+                            light: '#ffffff'
+                        }
+                    }, function(error) {
+                        if(error) console.error(error);
+                    });
+                }
+            }
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.ripple').forEach(button => {
+                button.addEventListener('touchstart', function(e) {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Refresh button functionality
+            document.getElementById('scan-refresh-btn').addEventListener('click', function() {
+                this.classList.add('rotating');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+            
+            // Cancel scan button functionality
+            document.getElementById('cancel-scan-btn').addEventListener('click', function() {
+                if (window.html5QrcodeScanner) {
+                    window.html5QrcodeScanner.resume();
+                }
+                document.getElementById('scan-result').style.display = 'none';
+            });
+            
+            // Initialize Lottie animation
+            window.setupSuccessAnimation = function() {
+                const animContainer = document.getElementById('lottie-container');
+                if (animContainer) {
+                    lottie.loadAnimation({
+                        container: animContainer,
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'success.json' // Updated to use local success.json file
+                    });
+                }
+            };
+        });
+    </script>
+</body>
+</html>

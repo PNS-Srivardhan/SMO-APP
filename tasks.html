@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SMO Production App - Tasks</title>
+    <link rel="stylesheet" href="css/tasks.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- Add to home screen for iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SMO Production">
+    <link rel="apple-touch-icon" href="images/default-avatar.svg">
+</head>
+<body>
+    <!-- Desktop Warning Message -->
+    <div class="desktop-warning">
+        <img src="images/default-avatar.svg" alt="Mobile Only App">
+        <h2>Mobile Only Application</h2>
+        <p>This application is designed exclusively for mobile devices. Please access it from your smartphone or tablet for the best experience.</p>
+        <p>Scan the QR code below with your mobile device to open the app:</p>
+        <div id="qr-code" style="margin: 20px auto; background: white; padding: 15px; border-radius: 8px;">
+            <!-- QR code will be generated with JavaScript -->
+        </div>
+    </div>
+    
+    <!-- App Status Bar -->
+    <div class="app-status-bar">
+        <div class="time" id="status-time"></div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Header -->
+    <div class="app-header">
+        <h1>Tasks</h1>
+        <div class="header-actions">
+            <div class="header-icon" id="tasks-refresh-btn">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content">
+            <!-- Task Filters -->
+            <div class="task-filters">
+                <div class="filter-controls">
+                    <div class="filter-item active" data-filter="all">
+                        <i class="fas fa-list"></i> All Tasks
+                    </div>
+                    <div class="filter-item" data-filter="active">
+                        <i class="fas fa-play-circle"></i> Active
+                    </div>
+                    <div class="filter-item" data-filter="completed">
+                        <i class="fas fa-check-circle"></i> Completed
+                    </div>
+                    <div class="filter-item" data-filter="pending">
+                        <i class="fas fa-clock"></i> Pending
+                    </div>
+                </div>
+                
+                <!-- Add task filter dropdown that JavaScript is looking for -->
+                <select id="task-status-filter" class="hidden">
+                    <option value="all">All Tasks</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="completed">Completed</option>
+                </select>
+                
+                <!-- Add task search that JavaScript is looking for -->
+                <input type="text" id="task-search" placeholder="Search tasks..." class="hidden">
+            </div>
+            
+            <!-- Tasks List -->
+            <div class="tasks-list" id="tasks-container">
+                <!-- Message for when no tasks are found -->
+
+                
+                <!-- Completed Tasks Container -->
+                <div id="completed-tasks-container">
+                    <h2>Completed Tasks</h2>
+                    <div id="completed-tasks-blocks"></div>
+                </div>
+                
+                <!-- Loading spinner container -->
+                <div class="loading-spinner-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Loading tasks...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Refresh button -->
+    <button id="refresh-tasks" class="floating-button">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <span class="bottom-nav-label">Dashboard</span>
+        </a>
+        <a href="tasks.html" class="bottom-nav-item active">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <span class="bottom-nav-label">Tasks</span>
+        </a>
+        <a href="scan.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <span class="bottom-nav-label">Scan</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <span class="bottom-nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Notification container -->
+    <div class="notification" id="notification">
+        <span id="notification-message"></span>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/tasks.js"></script>
+    <!-- QR code generator for desktop warning -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/lib/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status bar time update
+            function updateStatusTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                document.getElementById('status-time').textContent = `${hours}:${minutes} ${ampm}`;
+            }
+            
+            updateStatusTime();
+            setInterval(updateStatusTime, 60000);
+            
+            // Generate QR code on desktop with current URL
+            if(window.innerWidth >= 769) {
+                const qrCodeContainer = document.getElementById('qr-code');
+                if(qrCodeContainer) {
+                    QRCode.toCanvas(qrCodeContainer, window.location.href, {
+                        width: 200,
+                        margin: 1,
+                        color: {
+                            dark: '#4361ee',
+                            light: '#ffffff'
+                        }
+                    }, function(error) {
+                        if(error) console.error(error);
+                    });
+                }
+            }
+            
+            // Filter functionality
+            document.querySelectorAll('.filter-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all filters
+                    document.querySelectorAll('.filter-item').forEach(filter => {
+                        filter.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked filter
+                    this.classList.add('active');
+                    
+                    // Get filter value
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Update the hidden select to match the UI filter
+                    const statusFilter = document.getElementById('task-status-filter');
+                    if (statusFilter) {
+                        if (filter === 'active') {
+                            statusFilter.value = 'assigned';
+                        } else if (filter === 'completed') {
+                            statusFilter.value = 'completed';
+                        } else {
+                            statusFilter.value = 'all';
+                        }
+                        
+                        // Trigger change event to apply filter
+                        const event = new Event('change');
+                        statusFilter.dispatchEvent(event);
+                    }
+                });
+            });
+            
+            // Refresh button functionality
+            document.getElementById('tasks-refresh-btn').addEventListener('click', function() {
+                this.classList.add('rotating');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

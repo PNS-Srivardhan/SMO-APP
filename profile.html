@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SMO Production App - Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- Add to home screen for iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SMO Production">
+    <link rel="apple-touch-icon" href="images/default-avatar.svg">
+</head>
+<body>
+    <!-- Desktop Warning Message -->
+    <div class="desktop-warning">
+        <img src="images/default-avatar.svg" alt="Mobile Only App">
+        <h2>Mobile Only Application</h2>
+        <p>This application is designed exclusively for mobile devices. Please access it from your smartphone or tablet for the best experience.</p>
+        <p>Scan the QR code below with your mobile device to open the app:</p>
+        <div id="qr-code" style="margin: 20px auto; background: white; padding: 15px; border-radius: 8px;">
+            <!-- QR code will be generated with JavaScript -->
+        </div>
+    </div>
+    
+    <!-- App Status Bar -->
+    <div class="app-status-bar">
+        <div class="time" id="status-time"></div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Header -->
+    <div class="app-header">
+        <h1>My Profile</h1>
+        <div class="header-actions">
+            <div class="header-icon" id="header-logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content">
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img id="profile-image" src="images/default-avatar.svg" alt="Profile Picture">
+                        </div>
+                        <div class="profile-name">
+                            <h2 id="profile-full-name">Employee Name</h2>
+                            <p id="profile-position">Position</p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-item ripple">
+                            <span class="detail-label">Employee ID:</span>
+                            <span class="detail-value" id="profile-id">--</span>
+                        </div>
+                        <div class="detail-item ripple">
+                            <span class="detail-label">RFID:</span>
+                            <span class="detail-value" id="profile-department">--</span>
+                        </div>
+                        <div class="detail-item ripple">
+                            <span class="detail-label">Join Date:</span>
+                            <span class="detail-value" id="profile-join-date">--</span>
+                        </div>
+                        <div class="detail-item ripple">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value" id="profile-email">--</span>
+                        </div>
+                        <div class="detail-item ripple">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value" id="profile-phone">--</span>
+                        </div>
+                        <button id="logout-btn" class="btn-logout ripple">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <span class="bottom-nav-label">Dashboard</span>
+        </a>
+        <a href="tasks.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <span class="bottom-nav-label">Tasks</span>
+        </a>
+        <a href="scan.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <span class="bottom-nav-label">Scan</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item active">
+            <div class="bottom-nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <span class="bottom-nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/profile.js"></script>
+    <!-- QR code generator for desktop warning -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/lib/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status bar time update
+            function updateStatusTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                document.getElementById('status-time').textContent = `${hours}:${minutes} ${ampm}`;
+            }
+            
+            updateStatusTime();
+            setInterval(updateStatusTime, 60000);
+            
+            // Generate QR code on desktop with current URL
+            if(window.innerWidth >= 769) {
+                const qrCodeContainer = document.getElementById('qr-code');
+                if(qrCodeContainer) {
+                    QRCode.toCanvas(qrCodeContainer, window.location.href, {
+                        width: 200,
+                        margin: 1,
+                        color: {
+                            dark: '#4361ee',
+                            light: '#ffffff'
+                        }
+                    }, function(error) {
+                        if(error) console.error(error);
+                    });
+                }
+            }
+            
+            // Add ripple effect to interactive elements
+            document.querySelectorAll('.ripple').forEach(element => {
+                element.addEventListener('touchstart', function(e) {
+                    const rect = element.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Header logout button functionality
+            document.getElementById('header-logout-btn').addEventListener('click', function() {
+                localStorage.removeItem('smo_user');
+                localStorage.removeItem('smo_token');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

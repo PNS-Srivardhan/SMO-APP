@@ -1,0 +1,238 @@
+/* Scan Page Specific Styles */
+@import url('common.css');
+
+/* Scanner Interface */
+.scanner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+/* Success Animation */
+.success-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.success-animation.hidden {
+    display: none;
+}
+
+/* HTML5QrCode reader styles */
+#reader {
+    width: 100% !important;
+    max-width: 320px;
+    margin-bottom: 20px;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    border: 1px solid rgba(241, 245, 249, 0.8);
+}
+
+#reader video {
+    object-fit: cover;
+    border-radius: var(--card-border-radius);
+}
+
+.scanner-frame {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1/1;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(241, 245, 249, 0.8);
+}
+
+.scanner-viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--card-border-radius) - 1px);
+    background-color: #000;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.scan-area {
+    width: 70%;
+    height: 70%;
+    border: 2px solid var(--primary-light);
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.scan-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: var(--primary-color);
+    border-style: solid;
+    border-width: 0;
+}
+
+.scan-corner-top-left {
+    top: -2px;
+    left: -2px;
+    border-top-width: 4px;
+    border-left-width: 4px;
+}
+
+.scan-corner-top-right {
+    top: -2px;
+    right: -2px;
+    border-top-width: 4px;
+    border-right-width: 4px;
+}
+
+.scan-corner-bottom-left {
+    bottom: -2px;
+    left: -2px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+}
+
+.scan-corner-bottom-right {
+    bottom: -2px;
+    right: -2px;
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    top: 0;
+    animation: scanAnimation 2s infinite linear;
+    box-shadow: 0 0 8px var(--primary-light);
+    opacity: 0.8;
+}
+
+@keyframes scanAnimation {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 100%;
+    }
+    50.01% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+.scanner-message {
+    text-align: center;
+    padding: 15px;
+    color: var(--dark-color);
+    font-weight: 500;
+}
+
+.scan-btn {
+    margin-bottom: 20px;
+}
+
+.scan-result {
+    padding: 20px;
+    border-radius: var(--card-border-radius);
+    background-color: white;
+    box-shadow: var(--shadow-card);
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    animation: fadeInUp 0.5s ease;
+}
+
+.scan-result h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+}
+
+.scan-result h3 i {
+    font-size: 20px;
+}
+
+.scan-result-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.scan-result-item:last-child {
+    border-bottom: none;
+}
+
+.scan-result-label {
+    color: var(--grey-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.scan-result-value {
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.scan-success {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--secondary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.scan-action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.scan-action-buttons .btn {
+    flex: 1;
+    padding: 14px 10px;
+}
+
+/* Add rotating animation for refresh button */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rotating {
+    animation: rotate 0.8s linear;
+}

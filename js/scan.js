@@ -27,6 +27,19 @@ successAnimationContainer.style.height = '200px';
 successAnimationContainer.style.zIndex = '1000';
 document.body.appendChild(successAnimationContainer);
 
+// Create a container for the failed animation
+const failedAnimationContainer = document.createElement('div');
+failedAnimationContainer.id = 'failed-animation';
+failedAnimationContainer.className = 'failed-animation hidden';
+failedAnimationContainer.style.position = 'fixed';
+failedAnimationContainer.style.top = '50%';
+failedAnimationContainer.style.left = '50%';
+failedAnimationContainer.style.transform = 'translate(-50%, -50%)';
+failedAnimationContainer.style.width = '200px';
+failedAnimationContainer.style.height = '200px';
+failedAnimationContainer.style.zIndex = '1000';
+document.body.appendChild(failedAnimationContainer);
+
 // Create a modal for machine mismatch error
 const mismatchModal = document.createElement('div');
 mismatchModal.className = 'modal hidden';
@@ -227,6 +240,9 @@ function onScanSuccess(decodedText, decodedResult) {
                 'Scanned:', normalizedScannedId, 
                 'Stored:', normalizedStoredId);
             
+            // Show the failed animation
+            showFailedAnimation();
+            
             // Show the machine mismatch modal
             mismatchModal.classList.remove('hidden');
             
@@ -330,6 +346,24 @@ function showSuccessAnimation() {
             loop: false,
             autoplay: true,
             path: 'success.json'
+        });
+        animation.addEventListener('complete', () => {
+            animationContainer.classList.add('hidden');
+        });
+    }
+}
+
+// Show failed animation
+function showFailedAnimation() {
+    const animationContainer = document.getElementById('failed-animation');
+    if (animationContainer) {
+        animationContainer.classList.remove('hidden');
+        const animation = bodymovin.loadAnimation({
+            container: animationContainer,
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            path: 'failed-mail.json'
         });
         animation.addEventListener('complete', () => {
             animationContainer.classList.add('hidden');

@@ -1,4 +1,4 @@
-# SMO Production App - Detailed Documentation
+# Enterprise-Production App - Detailed Documentation
 
 ## Table of Contents
 1. Introduction
